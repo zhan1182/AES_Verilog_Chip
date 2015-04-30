@@ -1,0 +1,254 @@
+// $Id: $
+// File name:   decryption.sv
+// Created:     4/9/2015
+// Author:      Xihui Wang
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: decryption
+
+module decryption
+(
+  input wire 	      clk,
+  input wire n_rst,
+  input wire [127:0] d_in, 
+  input wire [0:43][31:0]  key_schedule,
+  output wire [127:0] d_out
+);
+
+
+   reg [0:15][7:0] 	      data_in;
+   
+   reg [0:15][7:0] 	      data_out;
+   //reg [7:0]        data_out_round[0:15];
+  
+   reg [0:15][7:0] 	      data_init;
+
+   reg [0:15][7:0] 	      round1_in;
+   reg [0:15][7:0] 	      round1_out;
+
+   reg [0:15][7:0] 	      round2_in;
+   reg [0:15][7:0] 	      round2_out;
+
+   reg [0:15][7:0] 	      round3_in;
+   reg [0:15][7:0] 	      round3_out;
+
+   reg [0:15][7:0] 	      round4_in;
+   reg [0:15][7:0] 	      round4_out;
+
+   reg [0:15][7:0] 	      round5_in;
+   reg [0:15][7:0] 	      round5_out;
+
+   reg [0:15][7:0] 	      round6_inx;
+   reg [0:15][7:0] 	      round6_out;
+
+   reg [0:15][7:0] 	      round7_in;
+   reg [0:15][7:0] 	      round7_out;
+
+   reg [0:15][7:0] 	      round8_in;
+   reg [0:15][7:0] 	      round8_out;
+
+   reg [0:15][7:0] 	      round9_in;
+   reg [0:15][7:0] 	      round9_out;
+
+   reg [0:15][7:0] 	      round10_in;
+   reg [0:15][7:0] 	      round10_out;
+   
+   //output data
+   assign d_out[7:0] = data_out[15];
+   assign d_out[15:8] = data_out[14];
+   assign d_out[23:16] = data_out[13];
+   assign d_out[31:24] = data_out[12];
+   assign d_out[39:32] = data_out[11];
+   assign d_out[47:40] = data_out[10];
+   assign d_out[55:48] = data_out[9];
+   assign d_out[63:56] = data_out[8];
+   assign d_out[71:64] = data_out[7];
+   assign d_out[79:72] = data_out[6];
+   assign d_out[87:80] = data_out[5];
+   assign d_out[95:88] = data_out[4];
+   assign d_out[103:96] = data_out[3];
+   assign d_out[111:104] = data_out[2];
+   assign d_out[119:112] = data_out[1];
+   assign d_out[127:120] = data_out[0];
+   //input data
+   assign data_in[15] = d_in[7:0];
+   assign data_in[14] = d_in[15:8];
+   assign data_in[13] = d_in[23:16];
+   assign data_in[12] = d_in[31:24];
+   assign data_in[11] = d_in[39:32];
+   assign data_in[10] = d_in[47:40];
+   assign data_in[9] = d_in[55:48];
+   assign data_in[8] = d_in[63:56];
+   assign data_in[7] = d_in[71:64];
+   assign data_in[6] = d_in[79:72];
+   assign data_in[5] = d_in[87:80];
+   assign data_in[4] = d_in[95:88];
+   assign data_in[3] = d_in[103:96];
+   assign data_in[2] = d_in[111:104];
+   assign data_in[1] = d_in[119:112];
+   assign data_in[0] = d_in[127:120];
+
+  
+  
+   inv_add_roundkey INV_ADD_ROUNDKEYBEFORE
+     (
+      .state_array_in(data_in),
+      .round_key({key_schedule[40],key_schedule[41],key_schedule[42],key_schedule[43]}),
+      .state_array_out(data_init)
+      );
+
+   inv_round INV_ROUND1
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round1_in),
+      .round_key({key_schedule[36],key_schedule[37],key_schedule[38],key_schedule[39]}),
+      .data_out(round1_out)
+      );
+
+
+   inv_round INV_ROUND2
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round2_in),
+      .round_key({key_schedule[32],key_schedule[33],key_schedule[34],key_schedule[35]}),
+      .data_out(round2_out)
+      );
+
+   inv_round INV_ROUND3
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round3_in),
+      .round_key({key_schedule[28],key_schedule[29],key_schedule[30],key_schedule[31]}),
+      .data_out(round3_out)
+      );
+
+
+   inv_round INV_ROUND4
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round4_in),
+      .round_key({key_schedule[24],key_schedule[25],key_schedule[26],key_schedule[27]}),
+      .data_out(round4_out)
+      );
+
+
+   inv_round INV_ROUND5
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round5_in),
+      .round_key({key_schedule[20],key_schedule[21],key_schedule[22],key_schedule[23]}),
+      .data_out(round5_out)
+      );
+
+
+   inv_round INV_ROUND6
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round6_in),
+      .round_key({key_schedule[16],key_schedule[17],key_schedule[18],key_schedule[19]}),
+      .data_out(round6_out)
+      );
+
+
+   inv_round INV_ROUND7
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round7_in),
+      .round_key({key_schedule[12],key_schedule[13],key_schedule[14],key_schedule[15]}),
+      .data_out(round7_out)
+      );
+
+   inv_round INV_ROUND8
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round8_in),
+      .round_key({key_schedule[8],key_schedule[9],key_schedule[10],key_schedule[11]}),
+      .data_out(round8_out)
+      );
+
+   inv_round INV_ROUND9
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round9_in),
+      .round_key({key_schedule[4],key_schedule[5],key_schedule[6],key_schedule[7]}),
+      .data_out(round9_out)
+      );
+
+
+   // Do we need a register between round10_out and data_out?
+   // If add a register, then needs one more clock.
+
+   inv_round10 INV_ROUND10
+     (
+      .clk(clk),
+      .n_rst(n_rst),
+      .data_in(round10_in),
+      .round_key({key_schedule[0],key_schedule[1],key_schedule[2],key_schedule[3]}),
+      .data_out(round10_out)
+      );
+
+
+   always_ff @ (posedge clk, negedge n_rst)
+   begin
+     if(n_rst == 1'b0)
+     begin
+       round1_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round2_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round3_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round4_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round5_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round6_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round7_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round8_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round9_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+	     round10_in <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+       data_out <= '{'{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}, '{ 0, 0, 0, 0, 0, 0, 0, 0}};
+     end
+     else
+     begin
+	     round1_in <= data_init;
+	     round2_in <= round1_out;
+	     round3_in <= round2_out;
+	     round4_in <= round3_out;
+	     round5_in <= round4_out;
+	     round6_in <= round5_out;
+	     round7_in <= round6_out;
+	     round8_in <= round7_out;
+	     round9_in <= round8_out;
+	     round10_in <= round9_out;
+	     data_out <= round10_out;
+	   end
+  end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

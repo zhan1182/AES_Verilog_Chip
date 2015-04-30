@@ -1,0 +1,72 @@
+// $Id: $
+// File name:   AES_Chip.sv
+// Created:     4/16/2015
+// Author:      Xinjie Lei
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: AES chip wrapper
+module AES_Chip
+  (
+   input wire 	      clk,
+   input wire 	      n_rst,
+   input wire [127:0] r_data,
+   input wire 	      mosi,
+   input wire 	      ss,
+   output reg 	      miso,
+   output reg [127:0] w_data,
+   output reg [7:0]   r_addr,
+   output reg [7:0]   w_addr,
+   output reg 	      r_en,
+   output reg 	      w_en
+   );
+   reg 		      en_d; 
+   reg 		      de_d;
+   reg 		      key_d;
+   reg [127:0]	      key;
+   reg [7:0] 	      s_addr;
+   reg [7:0] 	      loc;
+   reg 		      en_or_de;
+   reg 		      key_en;
+   reg 		      con_en;//sram controller w/ 40 timer enable
+   reg 		      aes_clk;
+   reg 		      flag_40;
+   reg 		      mem_clr;
+   reg 		      onc_r_en;  //on-chip SRAM read enable
+   reg 		      onc_w_en;
+   reg [7:0]	      onc_addr;
+   reg [127:0] 	      onc_r_data;
+   reg [127:0] 	      onc_w_data;
+   reg [0:43][31:0]   key_schedule;
+   reg 		      mem_dump;
+   reg [127:0] 	      usr_key;   
+   reg [7:0] 	      usr_addr;   
+   reg [7:0] 	      usr_loc;   
+   reg 		      mode;
+   reg 		      start;
+   reg 		      done;
+   reg 		      spi_clk;
+   reg 		      co_n_rst;
+   
+   assign mem_dump = (en_d) ? 1'b1 : 1'b0;
+   
+   spi_slave spi_control (.clk(clk), .rst(n_rst), .ss(ss), .mosi(mosi), .usr_key(usr_key), .usr_addr(usr_addr), .usr_loc(usr_loc), .mode(mode), .start(start), .miso(miso), .done(done), .aes_clk(spi_clk));
+   
+   AES_Controller main_controller(.clk(spi_clk), .n_rst(n_rst), .start(start), .usr_key(usr_key), .usr_addr(usr_addr), .usr_loc(usr_loc), .mode(mode), .en_d(en_d), .de_d(de_d), .key_d(key_d), .key(key), .s_addr(s_addr), .loc(loc), .en_or_de(en_or_de), .key_en(key_en), .con_en(con_en), .AES_done(done), .aes_clk(aes_clk), .mem_clr(mem_clr), .co_n_rst(co_n_rst));
+   
+   pipe_counter timer_40(.clk(aes_clk), .n_rst(co_n_rst), .count_enable(con_en), .done_flag(flag_40));
+
+   sram1_controller s1_controller(.clk(aes_clk), .enable(con_en), .n_rst(co_n_rst), .en_or_de(en_or_de), .s_addr(s_addr), .loc(loc), .flag_40(flag_40), .r_en(r_en), .w_en(w_en), .r_addr(r_addr), .w_addr(w_addr), .de_fin(de_d));
+
+   sram2_controller s2_controller(.clk(aes_clk), .enable(con_en), .n_rst(co_n_rst), .en_or_de(en_or_de), .s_addr(s_addr), .loc(loc), .flag_40(flag_40), .r_en(onc_r_en), .w_en(onc_w_en), .addr(onc_addr), .en_fin(en_d));
+
+   on_chip_sram_wrapper on_chip_sram(.init_file_number(0), .dump_file_number(0), .mem_clr(mem_clr), .mem_init(1'b0), .mem_dump(mem_dump), .start_address(0), .last_address(255), .verbose(1'b1), .read_enable(onc_r_en), .write_enable(onc_w_en), .address(onc_addr), .read_data(onc_r_data), .write_data(onc_w_data));
+
+   encryption encrypter(.clk(aes_clk), .n_rst(n_rst), .d_in(r_data), .key_schedule(key_schedule), .d_out(onc_w_data));
+   
+   decryption decrypter(.clk(aes_clk), .n_rst(n_rst), .d_in(onc_r_data), .key_schedule(key_schedule), .d_out(w_data));
+   
+   key_expansion key_ex(.clk(aes_clk), .n_rst(key_en | key_d), .key_in(key), .key_schedule_out(key_schedule));
+   
+   timer_key key_ex_timer(.clk(aes_clk), .n_rst(co_n_rst), .key_enable(key_en), .key_done(key_d));
+   
+endmodule

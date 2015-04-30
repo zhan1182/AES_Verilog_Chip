@@ -1,0 +1,9 @@
+<addr>:<data value in hexidecimal>
+0:FA1D;
+1:456C;
+2:BD26;
+3:74E2;
+4:D195;
+5:E8B7;
+6:A127;
+7:6AFE;

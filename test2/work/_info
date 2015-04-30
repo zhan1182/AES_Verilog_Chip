@@ -1,0 +1,217 @@
+m255
+K3
+13
+cModel Technology
+Z0 d/home/ecegrid/a/mg77/ece337/test
+vAES_Chip
+Z1 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
+Z2 ImR4SO1^N[A1I2?Nd_SlCz3
+Z3 VWcEH77Nm<^>8g7PcZ<72C0
+Z4 !s105 AES_Chip_sv_unit
+S1
+Z5 d/home/ecegrid/a/mg77/ece337/test2
+Z6 w1430406767
+Z7 8source/AES_Chip.sv
+Z8 Fsource/AES_Chip.sv
+L0 8
+Z9 OL;L;10.1b;51
+r1
+31
+Z10 !s90 -reportprogress|300|source/AES_Chip.sv|
+Z11 tCoverage 63 CoverExcludeDefault 1 CoverOpt 1 CoverFEC 0 CoverShortCircuit 0
+Z12 n@a@e@s_@chip
+Z13 !s100 l0C0hGHc0MF>[em@El2DY3
+Z14 !s108 1430406769.368306
+Z15 !s107 source/AES_Chip.sv|
+!i10b 1
+!s85 0
+vAES_Controller
+R1
+Z16 I8ZShmQ`I0D]VJiMajkZgA3
+Z17 VRX3X?aN=DS1=VJbUkPWFo0
+S1
+Z18 d/home/ecegrid/a/mg77/ece337/test_en
+Z19 w1430359968
+Z20 8source/AES_Controller.sv
+Z21 Fsource/AES_Controller.sv
+L0 8
+R9
+r1
+31
+R11
+Z22 n@a@e@s_@controller
+Z23 !s100 zRkf:jHIoP_i;XJ:ZO]cN0
+Z24 !s105 AES_Controller_sv_unit
+Z25 !s108 1430371176.432256
+Z26 !s107 source/AES_Controller.sv|
+Z27 !s90 -reportprogress|300|source/AES_Controller.sv|
+!i10b 1
+!s85 0
+vdecryption
+R1
+Z28 IzaX>mlKRAOTEC:Pb4USV_1
+Z29 VRW18BhcBXbz`Lf4Y3J?lK1
+Z30 !s105 decryption_sv_unit
+S1
+R18
+Z31 w1430362037
+Z32 8source/decryption.sv
+Z33 Fsource/decryption.sv
+L0 9
+R9
+r1
+31
+Z34 !s90 -reportprogress|300|source/decryption.sv|
+R11
+Z35 !s100 L@W3LWEW_K`SYkz6aGP1j1
+Z36 !s108 1430362041.444443
+Z37 !s107 source/decryption.sv|
+!i10b 1
+!s85 0
+vinv_mix_column
+R1
+Z38 Ii@GdPP2H`kXYKYz9MQ?_P2
+Z39 V``gDHWMEb`LnWK<nLTW;_3
+S1
+Z40 d/home/ecegrid/a/mg77/ece337/test
+Z41 w1430358768
+Z42 8source/inv_mix_column.sv
+Z43 Fsource/inv_mix_column.sv
+L0 11
+R9
+r1
+31
+R11
+Z44 !s100 8DKnJ]VaA:cH^Kl3oE@PN3
+Z45 !s105 inv_mix_column_sv_unit
+Z46 !s108 1430358963.789136
+Z47 !s107 source/inv_mix_column.sv|
+Z48 !s90 -reportprogress|300|source/inv_mix_column.sv|
+!i10b 1
+!s85 0
+vinv_round
+R1
+Z49 IbPinbKAd;JabZ_=d;H:IY0
+Z50 Vf;iN=9ooi83H^iRgP`;gm3
+S1
+R40
+Z51 w1430347178
+Z52 8source/inv_round.sv
+Z53 Fsource/inv_round.sv
+L0 14
+R9
+r1
+31
+R11
+Z54 !s100 0]T;k>HPOC:biI^;H__^80
+Z55 !s105 inv_round_sv_unit
+Z56 !s108 1430347186.019268
+Z57 !s107 source/inv_round.sv|
+Z58 !s90 -reportprogress|300|source/inv_round.sv|
+!i10b 1
+!s85 0
+vinv_sub_byte
+R1
+Z59 I47UUHLe^@8aU2f1?c:53G2
+Z60 Vnmg<YS<L5Dm?c;Xl_bLYX1
+Z61 !s105 inv_sub_byte_sv_unit
+S1
+R40
+Z62 w1430347600
+Z63 8source/inv_sub_byte.sv
+Z64 Fsource/inv_sub_byte.sv
+L0 8
+R9
+r1
+31
+Z65 !s90 -reportprogress|300|source/inv_sub_byte.sv|
+R11
+Z66 !s100 NBcX3VAXJh_PRhOZ]zmd;2
+Z67 !s108 1430347602.429578
+Z68 !s107 source/inv_sub_byte.sv|
+!i10b 1
+!s85 0
+vkey_expansion
+R1
+!i10b 1
+!s100 N=T=gAh@>G2VT@JA;1;2P1
+Iz9XY9IljoMNnHNX53d<ZK1
+Z69 V3AVK3j<n5hH0k`8Ig>:ae0
+Z70 !s105 key_expansion_sv_unit
+S1
+R5
+w1430411260
+Z71 8source/key_expansion.sv
+Z72 Fsource/key_expansion.sv
+L0 8
+R9
+r1
+!s85 0
+31
+!s108 1430411262.831816
+!s107 source/key_expansion.sv|
+Z73 !s90 -reportprogress|300|source/key_expansion.sv|
+R11
+vmix_column
+R1
+Z74 IT]9afzSPBRZFZO`Qd6>mk0
+Z75 VScNkDfKaj>czM3=oEL5Z<2
+S1
+R40
+Z76 w1430359525
+Z77 8source/mix_column.sv
+Z78 Fsource/mix_column.sv
+L0 9
+R9
+r1
+31
+R11
+Z79 !s100 j]UK5L47C9O9CUJcZ8zck2
+Z80 !s105 mix_column_sv_unit
+Z81 !s108 1430359531.333177
+Z82 !s107 source/mix_column.sv|
+Z83 !s90 -reportprogress|300|source/mix_column.sv|
+!i10b 1
+!s85 0
+vround
+R1
+Z84 ID_NV0<XMzLO`>RiEIKd>o3
+Z85 V3n_oRRz8PSi=OYZV2eG4G0
+S1
+R40
+Z86 w1430359685
+Z87 8source/round.sv
+Z88 Fsource/round.sv
+L0 12
+R9
+r1
+31
+R11
+Z89 !s100 =Z9M2>4^kZA8FJQIg5db?2
+Z90 !s105 round_sv_unit
+Z91 !s108 1430359696.813165
+Z92 !s107 source/round.sv|
+Z93 !s90 -reportprogress|300|source/round.sv|
+!i10b 1
+!s85 0
+vtb_inv_mix_column
+R1
+Z94 I[5nUKk[dCWZ]UJX;YR_RI0
+Z95 VEX[64FDzWAK:ZGfoAN1:R2
+S1
+R40
+Z96 w1430358925
+Z97 8source/tb_inv_mix_column.sv
+Z98 Fsource/tb_inv_mix_column.sv
+L0 11
+R9
+r1
+31
+R11
+Z99 !s100 aAG6M=0HJoP82zz<>Z4`I0
+Z100 !s105 tb_inv_mix_column_sv_unit
+Z101 !s108 1430358978.370990
+Z102 !s107 source/tb_inv_mix_column.sv|
+Z103 !s90 -reportprogress|300|source/tb_inv_mix_column.sv|
+!i10b 1
+!s85 0

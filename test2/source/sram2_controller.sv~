@@ -1,0 +1,29 @@
+// $Id: $
+// File name:   sram2_controller.sv
+// Created:     4/19/2015
+// Author:      Xinjie Lei
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: SRAM2 controller
+module sram2_controller
+  {
+   input wire enable,
+   input wire en_or_de,
+   input wire [7:0] s_addr,
+   input wire [7:0] loc,
+   input wire flag_40,
+   output wire r_en,
+   output wire w_en,
+   output wire [7:0] r_addr,
+   output wire [7:0] w_addr,
+   output wire en_fin
+   };
+   reg r_done;
+   
+   assign r_en = (en_or_de == 0) ? enable : 0;
+   assign w_en = (en_or_de == 1) ? enable && flag_40 : 0;
+
+   address_counter #(.NUM_CNT_BITS(8)) r_addr_counter(.clk(clk), .n_rst(n_rst), .clear(r_done), .count_enable(r_en), .rollover_val(loc), .start_address(0), .count_out(r_addr), .rollover_flag(r_done));
+   address_counter #(.NUM_CNT_BITS(8)) w_addr_counter(.clk(clk), .n_rst(n_rst), .clear(de_fin), .count_enable(w_en), .rollover_val(loc), .start_address(0), .count_out(w_addr), .rollover_flag(en_fin));
+   
+endmodule // sram2_controller

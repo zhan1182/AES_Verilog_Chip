@@ -1,0 +1,12 @@
+// $Id: $
+// File name:   AES_Chip.sv
+// Created:     4/16/2015
+// Author:      Xinjie Lei
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: AES chip wrapper
+module AES_Chip
+  {
+   };
+
+endmodule

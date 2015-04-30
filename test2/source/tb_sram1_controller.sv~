@@ -1,0 +1,110 @@
+// $Id: $
+// File name:   tb_sram1_controller.sv
+// Created:     4/20/2015
+// Author:      Xinjie Lei
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: test bench for sram1 controller
+`timescale 1ns / 100ps
+module tb_sram1_controller();
+   // SRAM configuation parameters (based on values set in wrapper file)
+   localparam TB_ADDR_SIZE_BITS	= 8; 	
+   localparam TB_DATA_SIZE_WORDS	= 8;	
+   localparam TB_WORD_SIZE_BYTES	= 2;
+   localparam TB_ACCES_SIZE_BITS	= (TB_DATA_SIZE_WORDS * TB_WORD_SIZE_BYTES * 8);
+   
+   // Useful test bench constants
+   localparam DATA_BUS_FLOAT = 16'hz;
+   
+   // Test bench signals for sram
+   integer unsigned tb_init_file_number;	
+   
+   reg 	   tb_mem_clr;	
+   reg 	   tb_mem_init;	 
+   reg 	   tb_r_en;	
+   reg 	   tb_w_en;  
+ 
+   reg [(TB_ADDR_SIZE_BITS - 1):0] tb_r_addr; 		// The address of the first word in the access
+   reg [(TB_ADDR_SIZE_BITS - 1):0] tb_w_addr; 		// The address of the first word in the access
+   reg [(TB_ACCES_SIZE_BITS - 1):0] tb_r_data;	// The data read from the SRAM
+   reg [(TB_ACCES_SIZE_BITS - 1):0]  tb_w_data;	// The data to be written to the SRAM
+   
+   //Test bench signal for sram1 controller
+   reg  		     tb_clk;
+   reg 			     tb_n_rst;
+   reg 			     tb_enable;
+   reg 			     tb_enorde;
+   reg 	[(TB_ADDR_SIZE_BITS - 1):0]  tb_s_addr;
+   reg 	[(TB_ADDR_SIZE_BITS - 1):0]  tb_loc;
+   reg 				     tb_flag_40;
+   reg 				     tb_de_fin;
+
+   //CLK signal
+   parameter CLK_PERIOD	= 12.5;
+   always
+     begin : CLK_GEN
+	tb_clk = 1'b0;
+	#(CLK_PERIOD / 2);
+	tb_clk = 1'b1;
+	#(CLK_PERIOD / 2);
+     end
+   // Wrapper portmap
+   off_chip_sram_wrapper1 DUT_SRAM1
+     (
+      // Test bench control signals
+      .mem_clr(tb_mem_clr),
+      .mem_init(tb_mem_init),
+      .mem_dump(),
+      .verbose(),
+      .init_file_number(tb_init_file_number),
+      .dump_file_number(),
+      .start_address(),
+      .last_address(),
+      // Memory interface signals
+      .read_enable(tb_r_en),
+      .write_enable(),
+      .address(tb_r_addr),
+      .data(tb_r_data)
+      );
+   
+    off_chip_sram_wrapper2 DUT_SRAM2
+     (
+      // Test bench control signals
+      .mem_clr(tb_mem_clr),
+      .mem_init(),
+      .mem_dump(),
+      .verbose(),
+      .init_file_number(),
+      .dump_file_number(),
+      .start_address(),
+      .last_address(),
+      // Memory interface signals
+      .read_enable(),
+      .write_enable(tb_w_en),
+      .address(tb_w_addr),
+      .data(tb_w_data)
+      );
+   
+   sram1_controller DUT_SRAM_CONTROLLER
+     (
+      .clk(tb_clk),
+      .n_rst(tb_n_rst),
+      .enable(tb_enable),
+      .en_or_de(tb_enorde),
+      .s_addr(tb_s_addr),
+      .loc(tb_loc),
+      .flag_40(tb_flag_40),
+      .r_en(tb_r_en),
+      .w_en(tb_w_en),
+      .r_addr(tb_r_addr),
+      .w_addr(tb_w_addr),
+      .de_fin(tb_de_fin)
+      );
+   
+   initial
+     begin : TEST_BENCH
+
+	
+     end
+   
+endmodule

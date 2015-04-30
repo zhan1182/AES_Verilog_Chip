@@ -1,0 +1,54 @@
+// $Id: $
+// File name:   flex_stp_sr.sv
+// Created:     4/23/2015
+// Author:      Xihui Wang
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: temp.
+
+module flex_stp_sr
+  #(
+    parameter NUM_BITS = 4
+   )
+   
+  (
+   input wire 		     clk,
+   input wire 		     n_rst,
+   input wire 		     shift_enable,
+   input wire 		     serial_in,
+   input wire 		     clear,
+   output reg [NUM_BITS-1:0] parallel_out
+   );
+   
+   int 			     i;
+   
+   always @ (posedge clk,negedge n_rst)
+     begin
+	if (n_rst == 0)
+	  begin
+	     for (i=0; i<NUM_BITS;i++)
+	       begin     
+		  parallel_out[i] <= 0;   
+	       end			  
+	  end
+	else if (clear == 1)
+	  begin
+	     for (i=0; i<NUM_BITS;i++)
+	       begin     
+		  parallel_out[i] <= 0;   
+	       end
+	  end	
+	else
+	  begin
+	     if (shift_enable == 1)
+	       begin		       
+		  for (i=0; i<NUM_BITS-1;i++)
+		    begin			    
+		       parallel_out[i] <= parallel_out[i+1];
+		    end
+		  parallel_out[i] <= serial_in;		  
+	       end	     
+	  end
+     end 
+   
+endmodule

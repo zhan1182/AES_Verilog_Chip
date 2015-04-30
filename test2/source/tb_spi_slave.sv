@@ -1,0 +1,375 @@
+// $Id: $
+// File name:   tb_spi.sv
+// Created:     4/23/2015
+// Author:      Xihui Wang
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: tb.
+`timescale 1ns / 10ps
+
+module tb_spi_slave ();
+   localparam	CLK_PERIOD	= 12.5;
+   localparam	CHECK_DELAY = 1;
+   
+   reg tb_clk;
+   reg tb_rst;
+   reg tb_ss;
+   reg tb_mosi;
+   reg [127:0] tb_usr_key;
+   reg [7:0]   tb_usr_addr;
+   reg [7:0]   tb_usr_loc;
+   reg 	       tb_mode;   
+   reg 	       tb_start;   
+   
+   
+   // DUT portmaps
+   spi_slave DEFAULT
+     (
+      .clk(tb_clk),
+      .rst(tb_rst),
+      .ss(tb_ss),
+      .mosi(tb_mosi),
+      .usr_key(tb_usr_key),
+      .usr_addr(tb_usr_addr),
+      .usr_loc(tb_usr_loc),
+      .mode(tb_mode),
+      .start(tb_start)
+      );
+   
+   // Clock generation block
+   always
+     begin
+	tb_clk = 1'b0;
+	#(CLK_PERIOD/2.0);
+	tb_clk = 1'b1;
+	#(CLK_PERIOD/2.0);
+     end
+     
+     
+   initial
+     begin
+	tb_rst = 1'b0;
+	#(CLK_PERIOD);
+       	
+	// test1: test for reset
+	@(negedge tb_clk);
+	tb_rst = 1'b1;
+	#(CLK_PERIOD);
+
+	
+	// test2: test for the ss signal, if the ss set to 1, then all the output should be 0
+	@(negedge tb_clk);
+	tb_ss = 1'b1;
+	#(CLK_PERIOD);
+	tb_mosi = 1'b1;
+	
+	if (tb_usr_key == 0)
+	  $info("PASS");
+	else
+	  $error("all values suppose to be 0, when ss set to 1");
+	
+	// test3: 
+	@(negedge tb_clk);
+	tb_ss = 1'b1;
+	#(CLK_PERIOD);
+	tb_ss = 1'b0;
+
+	tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+	tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b1;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        tb_mosi = 1'b0;
+        #(CLK_PERIOD);
+        
+        
+        tb_ss = 1'b1;
+	#(CLK_PERIOD);
+	
+     end
+endmodule

@@ -1,0 +1,27 @@
+# //  ModelSim SE-64 10.1b Apr 26 2012 Linux 2.6.32-504.16.2.el6.x86_64
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# vsim +no_glitch_msg -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Class0.5u/ECE337_IP/vsim -coverage -i -t ps source_work.tb_decryption 
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.tb_decryption(fast)
+# Loading work.decryption(fast)
+# Loading work.inv_add_roundkey(fast)
+# Loading work.inv_round(fast)
+# Loading work.inv_sub_byte(fast)
+# Loading work.inv_mix_column(fast)
+# Loading work.inv_round10(fast)
+add wave -position insertpoint  \
+sim:/tb_decryption/tb_default_test_num \
+sim:/tb_decryption/tb_clk \
+sim:/tb_decryption/tb_n_rst \
+sim:/tb_decryption/tb_state_array_in \
+sim:/tb_decryption/tb_round_key \
+sim:/tb_decryption/tb_state_array_out
+run 1000 ns

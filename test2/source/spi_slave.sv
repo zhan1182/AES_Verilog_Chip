@@ -1,0 +1,61 @@
+// $Id: $
+// File name:   spi.sv
+// Created:     4/23/2015
+// Author:      Xihui Wang
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: spi.
+module spi_slave
+  (
+   input wire 	       clk,
+   input wire 	       rst,
+   input wire 	       ss, // enable when aes gives enable signal. ss=0: m-->s, default is 1
+   input wire 	       done, 
+   input wire 	       mosi,// serial input
+   output wire 	       miso,// the done(idle) signal that send to master
+   output wire [127:0] usr_key,// the user key sends to aes
+   output wire [7:0]   usr_addr,// the user address sends to aes
+   output wire [7:0]   usr_loc,// the user location that sends to aes
+   output wire 	       mode,// send to aes, mode, en or de
+   output reg 	       start,// send to aes, enable
+   output reg aes_clk
+   );
+
+   reg [144 : 0]    temp;
+   reg 		    flag;
+   
+   
+   assign miso = done;   
+   assign aes_clk = clk;
+   
+   
+   flex_counter_spi
+     COUNTER(
+	     .clk(clk),
+	     .n_rst(rst),
+	     .clear(done),
+	     .count_enable(!ss),
+	     .rollover_val(8'b10010001),
+	     .rollover_flag(flag)
+	     );
+        
+   flex_stp_sr 
+     #(
+       .NUM_BITS(145)
+       )
+   CORE(
+	.clk(clk),
+	.n_rst(rst),
+	.clear(done),
+	.serial_in(mosi),
+	.shift_enable(!ss),
+	.parallel_out(temp)
+	);
+   
+   assign start = (done == 1'b0)? flag : 1'b0;   
+   assign mode = temp[0];   
+   assign usr_key = temp[128:1];
+   assign usr_addr = temp[136:129];
+   assign usr_loc = temp[144:137];
+   
+endmodule

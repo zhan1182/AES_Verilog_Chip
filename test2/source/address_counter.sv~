@@ -1,0 +1,72 @@
+// $Id: $
+// File name:   flex_counter.sv
+// Created:     2/2/2015
+// Author:      Xinjie Lei
+// Lab Section: 337-05
+// Version:     1.0  Initial Design Entry
+// Description: Flexible and Scalable Counter with Controlled Rollover
+module flex_counter
+#(
+   NUM_CNT_BITS = 4
+)
+(
+   input wire clk,
+   input wire n_rst,
+   input wire clear,
+   input wire count_enable,
+   input wire [NUM_CNT_BITS - 1 : 0] rollover_val,
+   input wire [NUM_CNT_BITS - 1 : 0] start_adress,
+   output wire [NUM_CNT_BITS - 1 : 0] count_out,
+   output wire rollover_flag
+);
+   reg [NUM_CNT_BITS - 1 : 0] cnt;
+   reg [NUM_CNT_BITS - 1 : 0] ncnt;
+   reg r_flag;
+   reg r_flag_next;
+
+   assign count_out = cnt;
+   assign rollover_flag = r_flag;
+   
+   always_ff @ (posedge clk, negedge n_rst) begin
+      if(!n_rst) begin
+	 cnt <= start_address;
+	 r_flag <= 1'b0;
+      end
+      else begin
+	 cnt <= ncnt;
+	 r_flag <= r_flag_next;
+      end
+   end
+
+   always_comb begin
+      ncnt = cnt;
+      r_flag_next = r_flag;
+      if(clear) begin
+	 ncnt = 0;
+	 r_flag_next = 1'b0;
+      end
+      else begin
+      if(count_enable) begin
+	 ncnt = cnt+1;
+	 r_flag_next = r_flag;
+      end
+      if(count_enable && (r_flag == 1'b1))begin
+	 ncnt = 1;
+	 if(rollover_val == 1) begin
+	    r_flag_next = 1'b1;
+	 end
+	 else begin
+	    r_flag_next = 1'b0;
+	 end
+      end
+      if(count_enable && (cnt == rollover_val-1))begin
+	 r_flag_next = 1'b1;
+      end
+      end // else: !if(clear)
+   end // always_comb begin
+endmodule // flex_counter
+
+ 
+      
+	
+	     

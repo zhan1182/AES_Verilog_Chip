@@ -1,0 +1,52 @@
+# //  ModelSim SE-64 10.1b Apr 26 2012 Linux 2.6.32-504.16.2.el6.x86_64
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+vlib work
+# ** Warning: (vlib-34) Library already exists at "work".
+vlog source/key_expansion.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module key_expansion
+# ** Error: source/key_expansion.sv(18): near "wire": syntax error, unexpected wire, expecting ';' or ','
+# ** Error: source/key_expansion.sv(22): (vlog-2730) Undefined variable: 'key'.
+# /package/eda/mg/modeltech_10.1b/modeltech/linux_x86_64/vlog failed.
+vlog source/key_expansion.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module key_expansion
+# 
+# Top level modules:
+# 	key_expansion
+vlog source/key_expansion.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module key_expansion
+# 
+# Top level modules:
+# 	key_expansion
+vlog source/AES_Chip.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module AES_Chip
+# ** Error: source/AES_Chip.sv(68): near "n_rst": syntax error, unexpected IDENTIFIER, expecting .* or '.'
+# /package/eda/mg/modeltech_10.1b/modeltech/linux_x86_64/vlog failed.
+vlog source/AES_Chip.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module AES_Chip
+# 
+# Top level modules:
+# 	AES_Chip
+vlog source/key_expansion.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module key_expansion
+# 
+# Top level modules:
+# 	key_expansion
+vlog source/key_expansion.sv
+# Model Technology ModelSim SE-64 vlog 10.1b Compiler 2012.04 Apr 26 2012
+# -- Compiling module key_expansion
+# 
+# Top level modules:
+# 	key_expansion

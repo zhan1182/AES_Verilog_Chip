@@ -1,0 +1,47 @@
+# //  ModelSim SE-64 10.1b Apr 26 2012 Linux 2.6.32-504.16.2.el6.x86_64
+# //
+# //  Copyright 1991-2012 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# vsim +no_glitch_msg -L /home/ecegrid/a/ece337/Course_Prod/Cell_Libs/AMI_05/vhdl_work -L /home/ecegrid/a/ece337/Class0.5u/GOLD_LIB -Lf /home/ecegrid/a/ece337/Class0.5u/ECE337_IP/vsim -coverage -i -t ps source_work.tb_spi_slave 
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: source/tb_spi_slave.sv(37): (vopt-2685) [TFMPC] - Too few port connections for 'DEFAULT'.  Expected 12, found 9.
+# ** Warning: source/tb_spi_slave.sv(37): (vopt-2718) [TFMPC] - Missing connection for port 'aes_clk'.
+# ** Warning: source/tb_spi_slave.sv(37): (vopt-2718) [TFMPC] - Missing connection for port 'miso'.
+# ** Warning: source/tb_spi_slave.sv(37): (vopt-2718) [TFMPC] - Missing connection for port 'done'.
+# Loading sv_std.std
+# Loading work.tb_spi_slave(fast)
+add wave -position insertpoint  \
+sim:/tb_spi_slave/tb_clk \
+sim:/tb_spi_slave/tb_rst \
+sim:/tb_spi_slave/tb_ss \
+sim:/tb_spi_slave/tb_mosi \
+sim:/tb_spi_slave/tb_usr_key \
+sim:/tb_spi_slave/tb_usr_addr \
+sim:/tb_spi_slave/tb_usr_loc \
+sim:/tb_spi_slave/tb_mode \
+sim:/tb_spi_slave/tb_start
+run 13000 ns
+# ** Info: PASS
+#    Time: 37500 ps  Scope: tb_spi_slave File: source/tb_spi_slave.sv Line: 67
+add wave -position insertpoint  \
+sim:/tb_spi_slave/DEFAULT/done \
+sim:/tb_spi_slave/DEFAULT/miso \
+sim:/tb_spi_slave/DEFAULT/usr_key \
+sim:/tb_spi_slave/DEFAULT/usr_addr \
+sim:/tb_spi_slave/DEFAULT/usr_loc \
+sim:/tb_spi_slave/DEFAULT/mode \
+sim:/tb_spi_slave/DEFAULT/start \
+sim:/tb_spi_slave/DEFAULT/aes_clk \
+sim:/tb_spi_slave/DEFAULT/temp \
+sim:/tb_spi_slave/DEFAULT/flag
+restart
+# Loading sv_std.std
+# Loading work.tb_spi_slave(fast)
+run 5000 ns
+# ** Info: PASS
+#    Time: 37500 ps  Scope: tb_spi_slave File: source/tb_spi_slave.sv Line: 67
